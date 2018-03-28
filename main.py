@@ -1,0 +1,100 @@
+import numpy as np
+from config import *
+from function import *
+
+
+def main():
+
+    all_videos = get_dir_files(file_path = video_path)
+    for i in all_videos:
+        print("'%s',"%i)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+if __name__ == '__main__':
+    main()
