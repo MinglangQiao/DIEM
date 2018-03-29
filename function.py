@@ -6,7 +6,7 @@ import imageio
 
 
 
-def get_dir_files(file_path):
+def get_dirs(file_path):
 
     f = []
     for root, dirs, files in  os.walk(file_path):
@@ -15,6 +15,25 @@ def get_dir_files(file_path):
 
     return  f
 
+def get_all_files(file_path):
+    """
+    get all files in a directory
+
+    :paramer
+
+    file_path:
+
+    :return:
+
+    f:
+    """
+
+    f = []
+    for (dirpath, dirnames, filenames) in os.walk(file_path):
+        f.extend(filenames)
+        break
+
+    return f
 
 def get_all_video_config():
 
@@ -25,7 +44,6 @@ def get_all_video_config():
 
         FRAMERATE, FRAMESCOUNT, IMAGEWIDTH, IMAGEHEIGHT = get_video_config(
             video_path)
-
 
         save_txt(video_name, FRAMESCOUNT, IMAGEWIDTH, IMAGEHEIGHT)
 
@@ -51,10 +69,8 @@ def get_one_video_fixations():
 
     pass
 
-
 def get_all_video_fxiation():
     pass
-
 
 def get_video_config(video_path):
     file_in_1 = video_path
@@ -84,24 +100,89 @@ def save_txt(video_name, FRAMESCOUNT, IMAGEWIDTH, IMAGEHEIGHT):
     f.write(save_data)
     f.close()
 
-def extract_fixations(video_name):
+def extract_one_video_fixations(video_name):
     """
     extract one subject's fixation data
 
     :parameter
     video_name：
 
+    :return:
+    fixations: one video's fixations, a m x n list, where m is the subject_num,
+               n is the fiaxtion data length
+    """
+
+    file_path = './all_video/' + video_name + '/event_data/'
+    all_subjects = get_all_files(file_path)
+
+    one_video_fixation = []
+
+    for i_subject in range(len(all_subjects)):
+        subject_name = all_subjects[i_subject]
+        read_path = file_path + subject_name
+
+        one_subject_data = read_fixation_txt(read_path)
+        one_video_fixation.append(one_subject_data)
+
+    return one_video_fixation
+
+
+def extract_all_video_fixations():
+
+    all_video_fixation = []
+    for i_video in range(len(video_list)):
+        video_name = video_list[i_video]
+
+        one_video_fixation = extract_one_video_fixations(video_name)
+
+
+
+def read_fixation_txt(path):
+    """
+    read the fixation txt
+
+    :param
+    path:
 
     :return:
-    subject_num: the number of subject in one video
-    fixations: a m x n list, where m is the subject_num, n is the fiaxtion data
-               length one video's fixations
+    one_subject_data: [frame, left_x, left_y, left_dil, left_event, right_x,
+        %         right_y, right_dil, right_event]
 
     """
-    
+
+    read_path = path
+
+    one_subject_data = []
+    f = open(read_path, 'r')
+    lines = f.readlines()
+    for line in lines:
+        line = line.split()
+        one_subject_data.append([line[0], line[1], line[2], line[3], line[4],
+                             line[5], line[6], line[7], line[8]])
+
+    return one_subject_data
+
+
+def filter_fixation_data(one_video_fixation):
+    """
+    from the raw data get the valid fixation data：
+    1) the left event and right event
+    2) and the x and y value should be smaller than the frame width and height
+
+
+    :param
+    one_subject_data:
+
+    :return:
+
+    filterd_one_video_data:
+
+    """
+    subject_num = len(one_video_fixation)
 
 
 
+    return filterd_one_video_data
 
 
 
