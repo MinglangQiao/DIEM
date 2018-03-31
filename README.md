@@ -3,7 +3,7 @@ verify the fixation number vs. cc curve in DIEM
 
 here is the [DIEM Website](https://thediemproject.wordpress.com/videos-and%C2%A0data/) 
 ```
-1. 先测平均每帧有多少个fixation， 比如20ge
+1. 先测平均每帧有多少个fixation， 比如20个
 
 2. 忽略那些每帧fixation数少于阀值的frame
 
