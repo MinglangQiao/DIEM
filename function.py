@@ -207,7 +207,6 @@ def filter_fixation_data(video_index, all_subjects,
     frame_width = float(all_video_config[video_index][2])
     frame_height = float(all_video_config[video_index][3])
     frame_num  = len(one_video_fixation[0])
-    IMG_W = round(DIEM_IMG_H * frame_width / frame_height / 32) * 32
     offsetX = (1280 - frame_width) / 2
     offsetY = (960 - frame_height) / 2
 
@@ -231,12 +230,13 @@ def filter_fixation_data(video_index, all_subjects,
                     one_subject_one_frame_data[8] == 1 and
                     x1 >= 3 and y1 >= 3 and x2 >= 3 and y2 >= 3 and
                     x1 <  (frame_width -3) and x2 < (frame_width -3) and
-                    y1 <  (frame_width -3) and y2 <  (frame_width -3)):
+                    y1 <  (frame_height -3) and y2 <  (frame_height -3)):
 
                     one_video_eye_fixation[i_frame].append([round((x1 + x2)/2),
                     round((y1 + y2)/2)])
-                else:
-                    one_video_eye_fixation[i_frame].append([-1, -1])
+                # else:
+                    # pass
+                    # one_video_eye_fixation[i_frame].append([-1, -1])
 
                 print('>>>>>>i_video: %d, video_name: %s,  i_subject: %d'%(
                     video_index, video_list[video_index], i_subject))
@@ -253,11 +253,13 @@ def save_filter_fixations(one_video_eye_fixation, video_name):
 
     """
 
-    np.save("Data/extract_fixations/ " + video_name + ".npy", one_video_eye_fixation)
+    np.save("Data/extract_fixations/ " + video_name + ".npy",
+            one_video_eye_fixation)
 
 def read_extract_fixations(video_name):
 
-    one_video_fixation = np.load("Data/extract_fixations/ " + video_name + ".npy")
+    one_video_fixation = np.load("Data/extract_fixations/ " + video_name
+                                 + ".npy")
 
     return one_video_fixation
 
@@ -292,14 +294,14 @@ def plot_data(data1, data2):
     figure = plt.figure()
 
     ax1 = figure.add_subplot(211)
-    ax1.imshow(data1, cmap='gray')
-    ax1.set_xlim([0, screen_width])
-    ax1.set_ylim([0, screen_heigth])
+    ax1.imshow(data1, cmap='jet')
+    ax1.set_xlim([0, int(screen_width/down_sample_rate)])
+    ax1.set_ylim([0, int(screen_heigth/down_sample_rate)])
 
     ax2 = figure.add_subplot(212)
-    ax2.imshow(data2, cmap='gray')
-    ax2.set_xlim([0, screen_width])
-    ax2.set_ylim([0, screen_heigth])
+    ax2.imshow(data2, cmap='jet')
+    ax2.set_xlim([0, int(screen_width/down_sample_rate)])
+    ax2.set_ylim([0, int(screen_heigth/down_sample_rate)])
 
     plt.show()
 
@@ -323,28 +325,31 @@ def cal_consistent(one_video_fixation, video_name):
 
             if (one_frame_x[i_subject] != -1 and one_frame_y[i_subject] != -1):
 
-                ground_fixaton = [[one_frame_x[i_subject],
-                                  one_frame_y[i_subject]]]
+                ground_fixaton = [[int(one_frame_x[i_subject]/down_sample_rate),
+                                  int(one_frame_y[i_subject]/down_sample_rate)]]
 
-                pre_fixaton = [one_frame_data[i] for i in
-                               range(subject_num) if i != i_subject and
-                               one_frame_data[i][0] != -1 and
+                pre_fixaton = [(one_frame_data[i]/down_sample_rate).astype(int)
+                               for i in range(subject_num) if i != i_subject
+                               and one_frame_data[i][0] != -1 and
                                one_frame_data[i][1] != -1]
 
-                ground_hmap = np.zeros((screen_heigth, screen_width))
+
+                ground_hmap = np.zeros((int(screen_heigth/down_sample_rate),
+                                        int(screen_width/down_sample_rate)))
                 for fix in ground_fixaton:
                     ground_hmap[fix[1]-1][fix[0]-1] = 255
 
-                pre_hmap = np.zeros((screen_heigth, screen_width))
+                pre_hmap = np.zeros((int(screen_heigth/down_sample_rate),
+                                     int(screen_width/down_sample_rate)))
                 for fix in pre_fixaton:
                     pre_hmap[fix[1]-1][fix[0]-1] = 255
 
                 ground_hmap = ndimage.gaussian_filter(ground_hmap,
-                    sigma=(ground_sigma , ground_sigma ), order=0)
+                    sigma=(ground_sigma, ground_sigma ), order=0)
                 pre_hmap = ndimage.gaussian_filter(pre_hmap,
                     sigma=(pre_figma, pre_figma), order=0)
 
-                # plot_data(ground_hmap, pre_hmap)
+                plot_data(ground_hmap, pre_hmap)
 
                 cc = calc_cc_score(ground_hmap,  pre_hmap)
                 print('>>>i_subject: %d, i_frame: %d/%d, cc: %f'%(i_subject,
@@ -352,18 +357,84 @@ def cal_consistent(one_video_fixation, video_name):
                 one_subject_ave_cc.append(cc)
 
 
-        # !!!!!!!!!!!!! please add figure to observe lile visdom
-
         one_subject_ave_cc = np.mean(one_subject_ave_cc) # check
-        print('>>> one_subject_ave_cc: %f'%one_subject_ave_cc)
-
         all_subject_ave_cc.append(one_subject_ave_cc)
+
+        print('>>> one_subject_ave_cc: %f'%one_subject_ave_cc)
 
     all_subject_ave_cc = np.mean(all_subject_ave_cc)
     print('>>>>>> all_subject_ave_cc: %f' %all_subject_ave_cc)
 
     return all_subject_ave_cc
 
+
+def cal_consist_v2(one_video_fixation, video_name, one_video_config):
+
+    frame_width = int(one_video_config[2])
+    frame_height = int(one_video_config[3])
+
+    frame_num = len(one_video_fixation)
+    subject_num = len(one_video_fixation[0])
+    all_pair_cc = []
+
+    for i_pair in range(pair_start, pair_end):
+
+        one_pair_cc = []
+        for i_subject in range(i_pair):
+
+            one_subject_cc = []
+            for i_frame in range(frame_num):
+
+                if i_frame%frame_step == 0 and (len(one_video_fixation[i_frame])
+                    >= i_pair):
+
+                    one_frame_data = np.array(one_video_fixation[i_frame])
+
+
+                    ground_fixation = [(one_frame_data[i]/down_sample_rate)
+                                        .astype(int) for i in range(i_pair)
+                                        if i == i_subject]
+
+                    predict_fixation = [(one_frame_data[i]/down_sample_rate)
+                                        .astype(int) for i in range(i_pair)
+                                        if i != i_subject]
+
+                    ground_hmap = np.zeros((int(frame_height / down_sample_rate),
+                                            int(frame_width / down_sample_rate)))
+                    for fix in ground_fixation:
+                        y = fix[1]
+                        x = fix[0]
+                        ground_hmap[y][x] = 255
+
+                    pre_hmap = np.zeros((int(frame_height / down_sample_rate),
+                                         int(frame_width / down_sample_rate)))
+                    for fix in predict_fixation:
+                        y = fix[1]
+                        x = fix[0]
+                        pre_hmap[y][x] = 255
+
+                    ground_hmap = ndimage.gaussian_filter(ground_hmap,
+                        sigma=(ground_sigma, ground_sigma ), order=0)
+                    pre_hmap = ndimage.gaussian_filter(pre_hmap,
+                        sigma=(pre_figma, pre_figma), order=0)
+
+                    # plot_data(ground_hmap, pre_hmap)
+                    cc = calc_cc_score(ground_hmap, pre_hmap)
+                    print('>>>i_pair: %d, i_subject: %d, i_frame: %d/%d, cc: %f'%(
+                          i_pair, i_subject, i_frame, frame_num, cc))
+
+                    one_subject_cc.append(cc)
+
+            one_subject_cc = np.mean(one_subject_cc)
+            one_pair_cc.append(one_subject_cc)
+
+        one_pair_cc = np.mean(one_pair_cc)
+        all_pair_cc.append(one_pair_cc)
+        save_const_cc(one_pair_cc, video_name)
+        print("=============>i_pair: %d one_pair_cc: %s"%(i_pair, one_pair_cc))
+
+
+    return all_pair_cc
 
 
 def calc_cc_score(gtsAnn, resAnn):
@@ -385,6 +456,116 @@ def calc_cc_score(gtsAnn, resAnn):
         return np.corrcoef(salMap.reshape(-1), fixationMap.reshape(-1))[0][1]
     else:
         return 0
+
+
+def get_one_video_fixation_num(one_video_fixation):
+
+    frame_num = len(one_video_fixation)
+    one_video_fixation_num = 0
+    one_frame_fixation_num = 0
+
+    for i_frame in range(frame_num):
+        one_frame_fixation_num = len(one_video_fixation[i_frame])
+        one_video_fixation_num += one_frame_fixation_num
+
+    return one_video_fixation_num
+
+
+def get_all_video_frame():
+    pass
+
+
+def save_txt(path, data1, data2, video_name):
+    """
+    :param
+    one_video_eye_fixation:
+    data: fixation num
+
+    :return:
+
+    """
+
+    save_path = path + "Fixation_num.txt"
+    f = open(save_path, "a")
+    save_data = video_name +'\t' + str(data1) + '\t' + str(data2) + '\n'
+    f.write(save_data)
+
+def save_const_cc(data, video_name, path = "Data/const_cc/"):
+
+    save_path = path + video_name + '.txt'
+    f = open(save_path, "a")
+    save_data = str(data) + '\n'
+    f.write(save_data)
+    f.close()
+
+def get_all_subject(all_video_config):
+
+    all_subject_num = 0
+    for i_video in range(len(all_video_config)):
+        file_path = "all_video/" + all_video_config[i_video][0] + "/event_data/"
+
+        files = get_all_files(file_path)
+        subject_num = len(files)
+        all_subject_num += subject_num
+
+    return all_subject_num
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

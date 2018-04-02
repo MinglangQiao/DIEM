@@ -1,5 +1,5 @@
 import numpy as np
 
-a = [[1, 2], [3,4]]
-for i in a:
-    print(i)
+a = np.array([1, 2])
+b = a/2
+c =1
