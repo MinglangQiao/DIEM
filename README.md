@@ -17,7 +17,7 @@ here is the [DIEM Website](https://thediemproject.wordpress.com/videos-and%C2%A0
 The basic properties of the existing eye-tracking databases
 
 | Database  | valid fixation each frame | total fixation | total frame | Year | Videos | subjects |
-| ------------- | ------------- | ------------- | ------------- | ------------- | 50 | 4.7 |
+| ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
 | [CRCNS](https://crcns.org/data-sets/eye/eye-1)  | Content Cell  | Content Cell  | Content Cell  | Content Cell  | Content  Cell  | Content Cell  |
 | SFU  | Content Cell  | Content Cell  | Content Cell  | Content Cell  | Content Cell  | Content Cell  |
 | DIEM | Content Cell  | 58 | Content Cell  | Content Cell  | Content Cell  | Content Cell  |
