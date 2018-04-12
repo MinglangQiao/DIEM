@@ -10,11 +10,14 @@ def main():
     # get_all_video_config()
 
     all_video_config = read_all_video_config()
-    all_video_fixation = extract_all_video_fixations(all_video_config)
+    # all_video_fixation = extract_all_video_fixations(all_video_config)
     # N  = get_all_subject(all_video_config)
     # print(">>>>>>>>>....all_subject_num: ", N)
 
+    all_video_result = result_process()
 
+    plot_data_v2(all_video_result)
+    # print(">>>>>>>>>>>>> t", all_video_result)
     all_video_cc = []
     all_video_frames = 0
 

@@ -293,6 +293,8 @@ def verify_data(one_video_fixation, video_name):
 def plot_data(data1, data2):
     figure = plt.figure()
 
+    # data1 = data[0]
+    # data2 = data[1]
     ax1 = figure.add_subplot(211)
     ax1.imshow(data1, cmap='jet')
     ax1.set_xlim([0, int(screen_width/down_sample_rate)])
@@ -302,6 +304,9 @@ def plot_data(data1, data2):
     ax2.imshow(data2, cmap='jet')
     ax2.set_xlim([0, int(screen_width/down_sample_rate)])
     ax2.set_ylim([0, int(screen_heigth/down_sample_rate)])
+
+    # ax3 = figure.add_subplot(111)
+    # ax3.plot(data)
 
     plt.show()
 
@@ -420,8 +425,8 @@ def cal_consist_v2(one_video_fixation, video_name, one_video_config):
 
                     # plot_data(ground_hmap, pre_hmap)
                     cc = calc_cc_score(ground_hmap, pre_hmap)
-                    print('>>>i_pair: %d, i_subject: %d, i_frame: %d/%d, cc: %f'%(
-                          i_pair, i_subject, i_frame, frame_num, cc))
+                    # print('>>>i_pair: %d, i_subject: %d, i_frame: %d/%d, cc: %f'%(
+                    #       i_pair, i_subject, i_frame, frame_num, cc))
 
                     one_subject_cc.append(cc)
 
@@ -507,9 +512,151 @@ def get_all_subject(all_video_config):
         files = get_all_files(file_path)
         subject_num = len(files)
         all_subject_num += subject_num
+        print(">>>>>>>>i_video: %d, subject_num: %d"%(i_video, subject_num))
 
     return all_subject_num
 
+
+def result_process():
+
+    all_video_data = []
+    for i_video in range(len(video_list)):
+
+        read_path = 'Data/const_cc/' + video_list[i_video] + ".txt"
+
+        f = open(read_path, "r")
+        lines = f.readlines()
+        one_video_data = []
+
+        for line in lines:
+            line = line.split()
+            one_video_data.append(line)
+
+        one_video_data_1 = [one_video_data[i][0] for i in
+                            range(len(one_video_data))]
+        if ('nan' in one_video_data_1) == False:
+            all_video_data.append(one_video_data_1)
+
+
+    ## ave_frame
+    ave_result = []
+    for i_pair in range(SET_Value - pair_start):
+
+        one_pair_result = []
+        one_pair_result = [float(all_video_data[i_video][i_pair])
+                           for i_video in range(len(all_video_data))]
+
+        print(">>>>>>>>>>>>> len(one_pair_result): ", len(one_pair_result))
+
+        # if ('nan' in all_video_data[i_video][i_pair]) == False
+
+        one_pair_result = np.mean(one_pair_result)
+        ave_result.append(one_pair_result)
+
+    return ave_result
+
+def plot_data_v2(data):
+    figure = plt.figure()
+
+    ax1 = figure.add_subplot(111)
+    ax1.plot(data)
+
+    plt.show()
+
+
+def remap_3d_to_2d(head_lat, head_lon, head_rotate, eye_lon, eye_lat, frame_width, frame_height):
+    '''
+    project the 3d coordinate into 2d coordinate in the 2d screen
+    the head_lat, head_lon, head_rotate are in degree
+    the eye_lon, eye_lat are in radian
+    Parameters
+    ----------
+    heng: x location in frame
+    shu: y location in frame
+    lonwhole: head_lon + eye_lon
+    latwhole: head_lat + eye_lat
+    but I still not clear about the math theroy of the translation
+    '''
+
+    from numpy import sin, cos, tan, pi
+    from math import acos, atan2
+    # import numpy as np
+
+    'parameter'
+    dw = 1080 # the fov horizontal size in pixel
+    dh = 1200 # the fov vertical size in pixel
+    fvx = 110 # the horizontal degree of fov
+    fvy = 113 # the vertical degree of fov
+    w = 4096 # the output frame size ?
+    h = 2048 # the output frmae height ?
+    E = [0, 0, 0]
+
+    'convert the head 3d to 2d'
+    fovx = pi * fvx / 180 # transfor degree to radian
+    fovy = pi * fvy / 180
+    fx = dw / (2 * tan(fovx / 2))
+    fy = dh / (2 * tan(fovy / 2))
+    K = np.array([[fx, 0, dw/2], [0, fy, dh/2], [0, 0, 1]])
+    R = np.array([[1, 0, 0], [0, 1, 0], [0, 0, 1]])
+    E[0] = sin(eye_lon) * cos(eye_lat)
+    E[1] = sin(eye_lat)
+    E[2] = cos(eye_lon) * cos(eye_lat)
+    E = np.array(E) * np.array([-1, -1, 1]) # multily in corresponding location
+    ee = np.dot(np.dot(K, R.T), E.T) # standard matrix multiply
+    e = ee/ee[2]
+
+    'restore the head rotate'
+    U = e[0] * cos(head_rotate * pi / 180) - e[1] * sin(head_rotate * pi / 180) # horizontal
+    V = e[0] * sin(head_rotate * pi / 180) + e[1] * cos(head_rotate * pi / 180) #vertical
+
+    'combine the 2d fov(U,V) with head(lat, lon) project to the 3d sphere'
+    E = [] # clear E
+    K = np.mat([[fx, 0, dw/2], [0, -fy, dh/2], [0, 0, 1]])
+
+    phi = (head_lat.astype('float') * pi / 180)
+    tht = (head_lon.astype('float') * pi / 180)
+    R = np.array([[cos(tht), sin(tht) * sin(phi), sin(tht) * cos(phi)], [0, cos(phi), -sin(phi)],
+                  [-sin(tht), cos(tht) * sin(phi), cos(tht) * cos(phi)]])
+
+    e = np.array([U, V, 1]).T
+    e = np.array(e)
+    q = np.dot(np.array(K.I), e.T) # jizhi
+    P = (q * np.array([1, 1, -1])) / np.linalg.norm(q) #if q is 1-d martix, the same as matlab,if 2-d has some difference
+    E = np.dot(R , P)
+
+    head_lat = acos(E[1])
+    head_lon = atan2(E[0], -E[2])
+
+    'project to the panaramic frame: big_x, big_y'
+    big_x = head_lon * frame_width / (2 * pi) # center is 0
+    big_y = head_lat * frame_height / pi # top is 0, buttom is frame_height
+    heng = big_x + frame_width / 2
+    shu = big_y
+    lonwhole = head_lon
+    latwhole = head_lat
+
+    return heng, shu, lonwhole, latwhole
+
+
+def resume_hmap(im, frame_index, frame_width, frame_height):
+    """
+    get the frame image which include the fixation
+
+    :param
+    im: frame image
+    :param frame_index:
+    :return:
+    """
+
+    fig = plt.figure()
+    implot = plt.imshow(pic)
+
+    'get eye position in one frame'
+    heng, shu, lon_whole, lat_whole = remap_3d_to_2d(
+        one_video_lat[i_subject][i_frame], one_video_lon[i_subject][i_frame],
+        one_video_rot[i_subject][i_frame], one_video_eye_lon[i_subject][
+        i_frame], one_video_eye_lat[i_subject][i_frame], frame_width,
+        frame_height)
 
 
 

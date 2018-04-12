@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="baabfeb1-fad8-4eef-b08b-c8f56ff6d5b4" name="server_207" url="http://192.168.226.172">
+        <fileTransfer host="192.168.226.172" port="22" rootFolder="/home/s/ml/DIEM" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
