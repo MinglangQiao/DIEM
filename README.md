@@ -16,7 +16,7 @@ here is the [DIEM Website](https://thediemproject.wordpress.com/videos-and%C2%A0
 ### database
 The basic properties of the existing eye-tracking databases
 
-| Database  | valid fixation each frame | total fixation | total frame | Videos | subjects | Year |
+| Database  | valid fixations each frame | total fixation | total frames | Videos | subjects | Year |
 | :---:  | :---:  | :---:  | :---:  |:---:  | :---:  | :---:  |
 | [CRCNS](https://crcns.org/data-sets/eye/eye-1)  | 3.60  | 118785  | 32989  | 50  | 4.7(ave)  | 2004  |
 | [SFU](http://www.sfu.ca/~ibajic/#data)  | Content Cell  | Content Cell  | Content Cell  | Content Cell  | Content Cell  | Content Cell  |
