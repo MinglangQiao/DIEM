@@ -34,21 +34,6 @@ def get_video_frame(video_name, path = CRCNS_frame_path):
 
     return int(frame_num)
 
-def get_video_config(video_name, video_path = CRCNS_video_path):
-
-    file_in_1 = video_path + video_name + '.mpg'
-    # # get the paramters
-    # # get the paramters
-    video = imageio.get_reader(file_in_1, 'ffmpeg')
-
-    FRAMERATE= round(video._meta['fps'])
-    FRAMESCOUNT = video._meta['nframes']
-    Frame_size  = video._meta['source_size']
-    IMAGEWIDTH = round(Frame_size[0])
-    IMAGEHEIGHT = round(Frame_size[1])
-    Second_total = FRAMESCOUNT / FRAMERATE
-
-    return FRAMERATE,  FRAMESCOUNT,  IMAGEWIDTH, IMAGEHEIGHT
 
 
 def get_subject_list(path = CRCNS_data_path):

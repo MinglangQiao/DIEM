@@ -107,3 +107,97 @@ CRCNS_subjects = [
 
 
 
+################################  SFU   #####################################
+
+SFU_data_path = '数据库_data/SFU/SFU_etdb/CSV'
+
+
+SFU_total_frames = 3150
+SFU_subject_num = 15
+SFU_total_fixation = 47061
+SFU_ave_fixation = 14.94
+
+SFU_video_list = [
+    'harbour',
+    'stefan',
+    'mother',
+    'crew',
+    'soccer',
+    'city',
+    'foreman',
+    'mobile',
+    'bus',
+    'tempete',
+    'flower',
+    'hall'
+]
+
+
+SFU_frame_list = {
+    'harbour': 300,
+    'stefan': 90,
+    'mother': 300,
+    'crew': 300,
+    'soccer':300,
+    'city': 300,
+    'foreman': 300,
+    'mobile': 300,
+    'bus': 150,
+    'tempete': 260,
+    'flower': 250,
+    'hall': 300
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
