@@ -26,7 +26,7 @@ The basic properties of the existing eye-tracking databases
 | IRCCyN  | Content Cell  | Content Cell  | Content Cell  | Content Cell  | Content Cell  | Content Cell  |
 | VAGBA  | Content Cell  | Content Cell  | Content Cell  | Content Cell  | Content Cell  | Content Cell  |
 | [GazeCom](http://www.inb.uni-luebeck.de/fileadmin/files/MITARBEITER/Dorr/EyeMovementDataSet.html)  | Content Cell  | Content Cell  | Content Cell  | Content Cell  | Content Cell  | Content Cell  |
-| [ASCMN](http://www.tcts.fpms.ac.be/attention/index.php?categorie2/databases&database=001)  | Content Cell  | Content Cell  | Content Cell  | Content Cell  | Content Cell  | Content Cell  |
+| [ASCMN](http://www.tcts.fpms.ac.be/attention/index.php?categorie2/databases&database=001)  | 10  | 101800  | 10180  | 24  | 13(actual 10)  | 2012 |
 | CAMO  | Content Cell  | Content Cell  | Content Cell  | Content Cell  | Content Cell  | Content Cell  |
 | Marat | Content Cell  | Content Cell  | Content Cell  | Content Cell  | Content Cell  | Content Cell  |
 | SAVAM  | Content Cell  | Content Cell  | Content Cell  | Content Cell  | Content Cell  | Content Cell  |
