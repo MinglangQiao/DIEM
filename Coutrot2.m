@@ -26,8 +26,6 @@ for i=1:15
            end
            
        end
-       
-       
    end
       
 end
