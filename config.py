@@ -187,10 +187,10 @@ Coutrot_2_data_path = "数据库_data/coutrot_database2.mat"
 Coutrot_2_video_num = 15
 
 
-
-
-
-
+############################### coutrot-1 #####################################
+all_frames = 26140
+all_fixations = 1742344
+subjects = 72
 
 
 
