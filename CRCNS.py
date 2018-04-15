@@ -35,7 +35,6 @@ def get_video_frame(video_name, path = CRCNS_frame_path):
     return int(frame_num)
 
 
-
 def get_subject_list(path = CRCNS_data_path):
     f =  get_dirs(path)
     for i in f:

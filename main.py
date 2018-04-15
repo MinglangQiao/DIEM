@@ -14,13 +14,13 @@ def main():
     # N  = get_all_subject(all_video_config)
     # print(">>>>>>>>>....all_subject_num: ", N)
 
-    all_video_result = result_process()
+    # all_video_result = result_process()
 
-    plot_data_v2(all_video_result)
+    # plot_data_v2(all_video_result)
     # print(">>>>>>>>>>>>> t", all_video_result)
     all_video_cc = []
     all_video_frames = 0
-
+    all_video_fixations = 0
     # read data
     for i_video in range(Num_videos):
         video_name = video_list[i_video]
@@ -29,7 +29,8 @@ def main():
         one_video_config = all_video_config[i_video]
 
         one_video_fixation = read_extract_fixations(video_name)
-
+        for i_frame in range(len(one_video_fixation)):
+            all_video_fixations += len(one_video_fixation[i_frame])
         # one_video_fixation_num = get_one_video_fixation_num(one_video_fixation)
         # one_video_ave_fixation_one_frame = int(one_video_fixation_num/
         #                                        one_video_frame_num)
@@ -43,13 +44,14 @@ def main():
 
         # one_video_cc = cal_consistent(one_video_fixation, video_name)
 
-        all_pair_cc_of_one_video = cal_consist_v2(one_video_fixation,
-                                                  video_name,
-                                                  one_video_config)
+        # all_pair_cc_of_one_video = cal_consist_v2(one_video_fixation,
+        #                                           video_name,
+        #                                           one_video_config)
 
 
         print('>>>>>>i_video: %d'%i_video)
         print('>>>>>>>>: all_video_frames: %d'%all_video_frames)
+        print(">>>>.one_video_fixation %d"%all_video_fixations)
 
 
         # a = 1

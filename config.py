@@ -15,8 +15,9 @@ frame_step = 10
 
 video_path = './all_video'
 
-all_fixation_num = 240452
-DIEM_ave_fixation = 58
+all_video_frames = 240452
+all_fixation_num = 13897289
+DIEM_ave_fixation = 57.80
 
 SET_Value = 43
 
@@ -148,12 +149,42 @@ SFU_frame_list = {
     'hall': 300
 }
 
+################################   ASCMN  #####################################
+
+ASCMN_data_path = "数据库_data/ASCMN/ACCV2012_database/raw_data/"
+
+ASCMN_video_list = [
+'raw_data_video14.mat',
+'raw_data_video9.mat',
+'raw_data_video24.mat',
+'raw_data_video15.mat',
+'raw_data_video2.mat',
+'raw_data_video20.mat',
+'raw_data_video18.mat',
+'raw_data_video23.mat',
+'raw_data_video21.mat',
+'raw_data_video11.mat',
+'raw_data_video10.mat',
+'raw_data_video22.mat',
+'raw_data_video12.mat',
+'raw_data_video4.mat',
+'raw_data_video5.mat',
+'raw_data_video17.mat',
+'raw_data_video3.mat',
+'raw_data_video19.mat',
+'raw_data_video6.mat',
+'raw_data_video1.mat',
+'raw_data_video13.mat',
+'raw_data_video7.mat',
+'raw_data_video16.mat',
+'raw_data_video8.mat'
+]
 
 
+################################  Coutrot-2  ##################################
 
-
-
-
+Coutrot_2_data_path = "数据库_data/coutrot_database2.mat"
+Coutrot_2_video_num = 15
 
 
 
