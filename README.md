@@ -19,7 +19,7 @@ The basic properties of the existing eye-tracking databases
 | Database  | valid fixations of each frame | total fixations | total frames | Videos | subjects | Year |
 | :---:  | :---:  | :---:  | :---:  |:---:  | :---:  | :---:  |
 | [CRCNS](https://crcns.org/data-sets/eye/eye-1)  | 3.60  | 118,785  | 32,989  | 50  | 4.7(ave)  | 2004  |
-| [SFU](http://www.sfu.ca/~ibajic/#data)  | 14.94  | 47061  | 3,150  | 12  | 15  | 2012  |
+| [SFU](http://www.sfu.ca/~ibajic/#data)  | 14.94  | 47,061  | 3,150  | 12  | 15  | 2012  |
 | [DIEM](https://thediemproject.wordpress.com/) | 57.80  | 13,897,289 | 240,452  | 84  | 50(ave)  | 2011  |
 | Hollywood | Content Cell  | Content Cell  | Content Cell  | Content Cell  | Content Cell  | Content Cell  |
 | Xu | Content Cell  | Content Cell  | Content Cell  | Content Cell  | Content Cell  | Content Cell  |
