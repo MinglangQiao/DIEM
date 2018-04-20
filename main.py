@@ -48,7 +48,6 @@ def main():
         #                                           video_name,
         #                                           one_video_config)
 
-
         print('>>>>>>i_video: %d'%i_video)
         print('>>>>>>>>: all_video_frames: %d'%all_video_frames)
         print(">>>>.one_video_fixation %d"%all_video_fixations)

@@ -662,7 +662,7 @@ def resume_hmap(im, frame_index, frame_width, frame_height):
 
 def get_video_config(video_name, video_path = CRCNS_video_path):
 
-    file_in_1 = video_path + video_name + '.mpg'
+    file_in_1 = video_path + video_name + '.avi'
     # # get the paramters
     # # get the paramters
     video = imageio.get_reader(file_in_1, 'ffmpeg')
