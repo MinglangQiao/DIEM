@@ -260,8 +260,6 @@ SAVAM_video_list = [
 
 
 
-
-
 SAVAM_user_list = [
 ['u001', 'm', '21', '1', 'bwd'],
 ['u002', 'm', '35', '1', 'fwd'],
@@ -325,9 +323,87 @@ SAVAM_user_list = [
 
 
 
+#################################### for VAGABA ###########################################
+VAGBA_path_video_list_path = './数据库_data/VAGBA/VidCom/VisualMpegs'
+VAGBA_path_subject_list_path = './数据库_data/VAGBA/VidCom/data'
+VAGBA_fixation_num_each_frame = 8
+VAGBA_one_video_frame = 300
+
+VAGBA_total_fixation = 172859
+VAGBA_total_frame = 15000
+VAGBA_ave_fixation = 11.52
 
 
+VAGBA_video_list = [
+'park01',
+'park03',
+'walkway03',
+'tree05',
+'room01',
+'road04',
+'walkway01',
+'tree07',
+'garden06',
+'seagal01',
+'uscdog01',
+'garden04',
+'track01',
+'field09',
+'park07',
+'field08',
+'tommy04',
+'gate01',
+'robarm01',
+'field03',
+'park09',
+'room02',
+'road02',
+'tommy01',
+'track03',
+'foutain04',
+'foutain05',
+'garden09',
+'dance01',
+'foutain01',
+'field05',
+'park05',
+'room03',
+'field02',
+'tommy02',
+'traffic03',
+'lot01',
+'road01',
+'walkway02',
+'road05',
+'tree09',
+'field04',
+'dance02',
+'field06',
+'gate03',
+'garden07',
+'park06',
+'foutain02',
+'road03',
+'traffic02'
+]
 
+
+VAGBA_subject_list = [
+'KC',
+'YW',
+'NK',
+'FZ',
+'SH',
+'WW',
+'TW',
+'SS',
+'BZ',
+'YS',
+'FW',
+'ZQ',
+'DL',
+'SN'
+]
 
 
 

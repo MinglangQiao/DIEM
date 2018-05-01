@@ -27,7 +27,7 @@ The basic properties of the existing eye-tracking databases
 | Hollywood | Content Cell  | Content Cell  | Content Cell  | Content Cell  | Content Cell  | Content Cell  |
 | Xu | Content Cell  | Content Cell  | Content Cell  | Content Cell  | Content Cell  | Content Cell  |
 | IRCCyN  | Content Cell  | Content Cell  | Content Cell  | Content Cell  | Content Cell  | Content Cell  |
-| VAGBA  | Content Cell  | Content Cell  | Content Cell  | Content Cell  | Content Cell  | Content Cell  |
+| [VAGBA](http://ilab.usc.edu/vagba/dataset/VidCom/)  | 11.52  | 172,859  | 15,000  | 50  | 14  | 2011  |
 | [GazeCom](http://www.inb.uni-luebeck.de/fileadmin/files/MITARBEITER/Dorr/EyeMovementDataSet.html)  | Content Cell  | Content Cell  | Content Cell  | Content Cell  | Content Cell  | Content Cell  |
 | [ASCMN](http://www.tcts.fpms.ac.be/attention/index.php?categorie2/databases&database=001)  | 9.36  | 95,271  | 10,180  | 24  | 13(actual 10)  | 2012 |
 | [Coutrot-2](http://antoinecoutrot.magix.net/public/databases.html) | 39.32  | 670,409  | 17,049  | 15  | 40  | 2015  |

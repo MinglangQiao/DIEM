@@ -69,6 +69,7 @@ def get_total_fixations():
     """
     all_video_fixation_num = 0
     for i_video in range(len(SAVAM_video_list)):
+        one_video_fixation = 0
         for i_subject in range(len(SAVAM_user_list)):
 
             frame_total = SAVAM_video_list[i_video][3]
@@ -90,11 +91,12 @@ def get_total_fixations():
 
             for i_frame in range(frame_total):
                 ## for each frame interval
+
                 one_frame_start =  i_frame * sample_of_each_frame
                 one_frame_end = (i_frame + 1) * sample_of_each_frame
                 if one_frame_start >= record_len:
-                    print('======== error: one_frame_start: %d >= record_len:'
-                          ' %d'%(one_frame_start, record_len))
+                    # print('======== error: one_frame_start: %d >= record_len:'
+                    #       ' %d'%(one_frame_start, record_len))
                     break
                 if one_frame_end >= record_len:
                     one_frame_end = (record_len -1)
@@ -116,6 +118,7 @@ def get_total_fixations():
 
                 if valid_frame == 1:
                     all_video_fixation_num += 1
+                    one_video_fixation += 1
                 else:
                     pass
                     # print('>>>> invalid fixation of one frame: i_frame: %d, '
@@ -125,7 +128,8 @@ def get_total_fixations():
                   ' %d'%(i_video, len(SAVAM_video_list), i_subject,
                       len(SAVAM_user_list), all_video_fixation_num))
 
-
+        print('======================== one_vdieo_ave_fixation: %.3f' % (
+                    one_video_fixation / frame_total))
 
 
 
